@@ -1,5 +1,5 @@
 var SCRIPT_NAME = 'Utils'
-var SCRIPT_VERSION = 'v1.0'
+var SCRIPT_VERSION = 'v1.1'
 
 var DateDiff = (function(ns) {
 
