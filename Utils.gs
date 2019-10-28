@@ -1,5 +1,5 @@
 var SCRIPT_NAME = 'Utils'
-var SCRIPT_VERSION = 'v1.1'
+var SCRIPT_VERSION = 'v1.2'
 
 var DateDiff = (function(ns) {
 
@@ -72,3 +72,77 @@ function getPRFColumns(spreadsheet) {
   return columnNumbers
   
 } // getPRFColumns()
+
+function getDoc() {
+  var doc = DocumentApp.getActiveDocument()
+  if (doc === null) {
+    doc = DocumentApp.openById(TEST_DOC_ID_)
+  }
+  return doc
+}
+
+function getUi() {
+  var doc = DocumentApp.getActiveDocument()
+  var ui = null
+  if (doc !== null) {
+    ui = DocumentApp.getUi();
+  }
+  return ui
+}
+
+/* To Title Case © 2018 David Gouch | https://github.com/gouch/to-title-case */
+
+// eslint-disable-next-line no-extend-native
+function toTitleCase(title) {
+  'use strict'
+  var smallWords = /^(a|an|and|as|at|but|by|en|for|if|in|nor|of|on|or|per|the|to|v.?|vs.?|via)$/i
+  var alphanumericPattern = /([A-Za-z0-9\u00C0-\u00FF])/
+  var wordSeparators = /([ :–—-])/
+
+  return title.split(wordSeparators)
+    .map(function (current, index, array) {
+      if (
+        /* Check for small words */
+        current.search(smallWords) > -1 &&
+        /* Skip first and last word */
+        index !== 0 &&
+        index !== array.length - 1 &&
+        /* Ignore title end and subtitle start */
+        array[index - 3] !== ':' &&
+        array[index + 1] !== ':' &&
+        /* Ignore small words that start a hyphenated phrase */
+        (array[index + 1] !== '-' ||
+          (array[index - 1] === '-' && array[index + 1] === '-'))
+      ) {
+        return current.toLowerCase()
+      }
+
+      /* Ignore intentional capitalization */
+      if (current.substr(1).search(/[A-Z]|\../) > -1) {
+        return current
+      }
+
+      /* Ignore URLs */
+      if (array[index + 1] === ':' && array[index + 2] !== '') {
+        return current
+      }
+
+      /* Capitalize the first letter */
+      return current.replace(alphanumericPattern, function (match) {
+        return match.toUpperCase()
+      })
+    })
+    .join('')
+}
+
+function toSentenceCase(sentence) {
+  if (sentence === undefined || sentence === '') {
+    return '';
+  }
+  var toSentenceCase = sentence[0].toUpperCase() + sentence.slice(1);
+  if (sentence[sentence.length] !== '.') {
+    toSentenceCase += '.';
+  }
+  return toSentenceCase;
+}
+
