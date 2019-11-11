@@ -1,5 +1,5 @@
 var SCRIPT_NAME = 'Utils'
-var SCRIPT_VERSION = 'v1.2'
+var SCRIPT_VERSION = 'v1.2.dev_ajr'
 
 var DateDiff = (function(ns) {
 
@@ -73,10 +73,10 @@ function getPRFColumns(spreadsheet) {
   
 } // getPRFColumns()
 
-function getDoc() {
+function getDoc(testDocId) {
   var doc = DocumentApp.getActiveDocument()
   if (doc === null) {
-    doc = DocumentApp.openById(TEST_DOC_ID_)
+    doc = DocumentApp.openById(testDocId)
   }
   return doc
 }
@@ -140,7 +140,7 @@ function toSentenceCase(sentence) {
     return '';
   }
   var toSentenceCase = sentence[0].toUpperCase() + sentence.slice(1);
-  if (sentence[sentence.length] !== '.') {
+  if (sentence[sentence.length - 1] !== '.') {
     toSentenceCase += '.';
   }
   return toSentenceCase;
