@@ -1,3 +1,8 @@
+// v1.3
+// ----
+// 
+// * Added various functions from PRR lib
+
 // v1.2
 // ----
 // 
